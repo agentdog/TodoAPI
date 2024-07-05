@@ -1,17 +1,15 @@
-using MySqlConnector;
-using TodoAPI;
-using DotEnv;
+using MySql.Data;
+using MySql.Data.MySqlClient;
 
+using TodoAPI;
+using DotEnv.Core;
+using System.Data.Common;
 
 // Connect to SQL server
-var root = Directory.GetCurrentDirectory();
-var dotenv = Path.Combine(root, ".env");
-DotEnv.DotEnv.Load(dotenv);
+new EnvLoader().AddEnvFile(".env").Load();
+var envReader = new EnvReader();
 
-var SQLbuilder = new MySqlConnectionStringBuilder {
-	Server = ""
-};
-
+string connectionString;
 // Build app
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
