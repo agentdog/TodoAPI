@@ -6,5 +6,5 @@ Make sure to create an `.env` file with the following content:
 SERVER = ""
 USERID = ""
 PASSWORD = ""
-DATABASE = ""
+PORT = ""
 ```

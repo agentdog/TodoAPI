@@ -1,15 +1,22 @@
+using Microsoft.Extensions.Configuration;
+
 using MySql.Data;
 using MySql.Data.MySqlClient;
 
 using TodoAPI;
-using DotEnv.Core;
-using System.Data.Common;
 
 // Connect to SQL server
-new EnvLoader().AddEnvFile(".env").Load();
-var envReader = new EnvReader();
+IConfiguration config = new ConfigurationBuilder()
+	.AddEnvironmentVariables()
+	.Build();
 
-string connectionString;
+string server = config["SERVER"];
+string port = config["PORT"];
+string userID = config["USERID"];
+string password = config["PASSWORD"];
+string database = "ToDo";
+
+string connectionString = $"server={server}:{port};uid={userID};pwd={password};database={database}";
 // Build app
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
