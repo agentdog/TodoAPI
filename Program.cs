@@ -7,10 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 using TodoItem;
+using TodoDB;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<TodoDbContext>(options => options.UseInMemoryDatabase("Todos"));
+builder.Services.AddDbContext<TodoDBContext>(options => options.UseInMemoryDatabase("Todos"));
 builder.Services.AddControllers();
 
 var app = builder.Build();
