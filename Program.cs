@@ -19,3 +19,18 @@ var app = builder.Build();
 app.MapControllers();
 
 await app.RunAsync();
+
+[ApiController]
+[Route("/")]
+public class TodoController : ControllerBase {
+    private readonly TodoDBContext _db;
+
+    public TodoController(TodoDBContext db) {
+        _db = db;
+    }
+
+    [HttpGet()]
+    public TodoDBContext<TodoItem> GetItems() {
+        return _db;
+    }
+}
