@@ -1,31 +1,18 @@
-using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
-using MySql.Data;
-using MySql.Data.MySqlClient;
-
-using TodoAPI;
-
-// Connect to mySQL server
-IConfiguration config = new ConfigurationBuilder()
-	.AddEnvironmentVariables()
-	.Build();
-
-string server = config["SERVER"];
-string port = config["PORT"];
-string userID = config["USERID"];
-string password = config["PASSWORD"];
-string database = "ToDo";
-
-string connectionString = $"server={server}:{port};uid={userID};pwd={password};database={database}";
-Console.WriteLine(connectionString);
-MySqlConnection connection = new MySqlConnection(connectionString);
-
-// Build app
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<TodoDbContext>(options => options.UseInMemoryDatabase("Todos"));
+builder.Services.AddControllers();
+
 var app = builder.Build();
 
-app.MapGet("/", () => {
-	return connectionString;
-});
+app.MapControllers();
 
-app.Run();
+await app.RunAsync();
